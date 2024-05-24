@@ -1,6 +1,10 @@
 pipeline{
     agent any
 
+    tools {
+        nodejs 'node'
+    }
+
     environment {
         registryUrl = 'programmer175/conduit_angular'
         registryCredential = 'programmer175'
@@ -8,7 +12,7 @@ pipeline{
     }
 
     stages{
-        stage('Initialization'){
+        stage('Initialization') {
             steps{
                 sh 'npm install'
             }
