@@ -1,11 +1,7 @@
 pipeline{
     agent any
 
-    tools {
-        nodejs 'node'
-    }
-
-    environment {
+   environment {
         registryUrl = 'programmer175/conduit_angular'
         registryCredential = 'programmer175'
         dockerImage = ''
