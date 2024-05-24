@@ -24,6 +24,7 @@ pipeline{
                     -s './'
                     -f 'ALL' 
                     --prettyPrint
+                    --disableYarnAudit
                     --nvdApiKey ${NVD_API_KEY}
                     ''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
         
