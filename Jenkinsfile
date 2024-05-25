@@ -13,9 +13,10 @@ pipeline{
     }
 
     stages{
-        stage('Initialization') {
+        stage('Initialization & Unit Test') {
             steps{
                 sh 'npm install'
+                sh 'npm run test'
             }
         }
 
