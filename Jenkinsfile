@@ -14,23 +14,23 @@ pipeline{
             }
         }
 
-//       stage('OWASP Dependency-Check Vulnerabilities') {
-//     environment {
-//         NVD_API_KEY = credentials('NVD_API_KEY')
-//     }
-//     steps {
-//         dependencyCheck additionalArguments: ''' 
-//                     -o './'
-//                     -s './'
-//                     -f 'ALL' 
-//                     --prettyPrint
-//                     --disableYarnAudit
-//                     --nvdApiKey ${NVD_API_KEY}
-//                     ''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+      stage('OWASP Dependency-Check Vulnerabilities') {
+    environment {
+        NVD_API_KEY = credentials('NVD_API_KEY')
+    }
+    steps {
+        dependencyCheck additionalArguments: ''' 
+                    -o './'
+                    -s './'
+                    -f 'ALL' 
+                    --prettyPrint
+                    --disableYarnAudit
+                    --nvdApiKey ${NVD_API_KEY}
+                    ''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
         
-//         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-//       }
-// }
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+      }
+}
 
 
         stage ('Build Docker Image') {
@@ -64,8 +64,6 @@ stage('Update Deployment file') {
     steps {
         sshagent(['GITHUB_SSH']) {
             sh '''
-                mkdir -p ~/.ssh
-                ssh-keyscan -H github.com >> ~/.ssh/known_hosts
                 rm -rf conduit-manifests
                 git config --global user.email "sidhurv8@gmail.com"
                 git config --global user.name "sidhu2003"
@@ -73,7 +71,7 @@ stage('Update Deployment file') {
                 cd conduit-manifests
                 sed -i 's|programmer175/conduit_angular:.*|programmer175/conduit_angular:'"$BUILD_NUMBER"'|' frontend_deployment.yaml
                 git add frontend_deployment.yaml
-                git commit -m "updating image version to $BUILD_NUMBER"
+                git commit -m "updating frontend image version to $BUILD_NUMBER"
                 git push origin main
             '''
         }
