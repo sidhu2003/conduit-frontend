@@ -1,3 +1,8 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good',
+    'FAILURE': 'danger'
+]
+
 pipeline{
     agent any
 
@@ -79,7 +84,7 @@ stage('Update Deployment file') {
 }
 
 }
-     post {
+    post {
         always {
             archiveArtifacts artifacts: "trivy_report.html", fingerprint: true
             publishHTML (target: [
@@ -89,7 +94,11 @@ stage('Update Deployment file') {
                 reportDir: '.',
                 reportFiles: 'trivy_report.html',
                 reportName: 'Trivy Scan',
-                ])
-            }
+            ])
+            echo 'Slack Notification'
+            slackSend channel: '#app',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME}"
         }
+    }
 }
