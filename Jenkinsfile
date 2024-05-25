@@ -77,6 +77,7 @@ pipeline{
             }
 
     }
+}
      post {
         always {
             archiveArtifacts artifacts: "trivy_report.html", fingerprint: true
@@ -90,5 +91,4 @@ pipeline{
                 ])
             }
         }
-}
 }
