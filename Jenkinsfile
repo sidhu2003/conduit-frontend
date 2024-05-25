@@ -62,7 +62,7 @@ pipeline{
 
         stage('Update Deployment file') {
             steps {
-                withCredentials(credentialsId: 'github-jenkins', variable: '' ){
+                script {
                     sh '''
                         git config --global user.email "sidhurv8@gmail.com"
                         git config --global user.name "sidhu2003"
@@ -75,7 +75,6 @@ pipeline{
                         '''
                 }
             }
-        }
 
     }
      post {
