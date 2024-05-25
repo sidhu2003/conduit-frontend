@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://ae34e4ebe35804c799a301344858b070-812680059.us-east-2.elb.amazonaws.com:8000/api',
+  apiUrl: 'http://ae7eaf8196c2340b1b2c2ff743846cc3-1433936838.us-east-2.elb.amazonaws.com:8000/api/',
 };
