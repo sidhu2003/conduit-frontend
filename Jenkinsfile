@@ -62,7 +62,7 @@ pipeline{
 
 stage('Update Deployment file') {
     steps {
-        sshagent(['github-jenkins']) {
+        sshagent(['github']) {
             sh '''
                 mkdir -p ~/.ssh
                 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
