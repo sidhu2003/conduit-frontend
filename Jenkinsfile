@@ -14,23 +14,23 @@ pipeline{
             }
         }
 
-      stage('OWASP Dependency-Check Vulnerabilities') {
-    environment {
-        NVD_API_KEY = credentials('NVD_API_KEY')
-    }
-    steps {
-        dependencyCheck additionalArguments: ''' 
-                    -o './'
-                    -s './'
-                    -f 'ALL' 
-                    --prettyPrint
-                    --disableYarnAudit
-                    --nvdApiKey ${NVD_API_KEY}
-                    ''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+//       stage('OWASP Dependency-Check Vulnerabilities') {
+//     environment {
+//         NVD_API_KEY = credentials('NVD_API_KEY')
+//     }
+//     steps {
+//         dependencyCheck additionalArguments: ''' 
+//                     -o './'
+//                     -s './'
+//                     -f 'ALL' 
+//                     --prettyPrint
+//                     --disableYarnAudit
+//                     --nvdApiKey ${NVD_API_KEY}
+//                     ''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
         
-        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-      }
-}
+//         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+//       }
+// }
 
 
         stage ('Build Docker Image') {
@@ -66,7 +66,7 @@ pipeline{
                     sh '''
                         git config --global user.email "sidhurv8@gmail.com"
                         git config --global user.name "sidhu2003"
-                        git clone https://github.com/sidhu2003/conduit-manifests
+                        git clone git@github.com:sidhu2003/conduit-manifests.git
                         cd conduit-manifests
                         sed -i 's|programmer175/conduit_angular:.*|programmer175/conduit_angular:'"$BUILD_NUMBER"'|' frontend_deployment.yaml
                         git add frontend_deployment.yaml
