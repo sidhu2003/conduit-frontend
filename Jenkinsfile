@@ -64,6 +64,7 @@ stage('Update Deployment file') {
     steps {
         sshagent(['github-jenkins']) {
             sh '''
+                mkdir -p ~/.ssh
                 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
                 rm -rf conduit-manifests
                 git config --global user.email "sidhurv8@gmail.com"
