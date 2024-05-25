@@ -60,24 +60,22 @@ pipeline{
             }
         }
 
-        stage('Update Deployment file') {
-            steps {
-                script {
-                    sh '''
-                        rm -rf conduit-manifests
-                        git config --global user.email "sidhurv8@gmail.com"
-                        git config --global user.name "sidhu2003"
-                        git clone git@github.com:sidhu2003/conduit-manifests.git
-                        cd conduit-manifests
-                        sed -i 's|programmer175/conduit_angular:.*|programmer175/conduit_angular:'"$BUILD_NUMBER"'|' frontend_deployment.yaml
-                        git add frontend_deployment.yaml
-                        git commit -m "updating image version to $BUILD_NUMBER"
-                        git push origin main
-                        '''
-                }
-            }
-
+stage('Update Deployment file') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'github-jenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+            sh '''
+                git config --global user.email "sidhurv8@gmail.com"
+                git config --global user.name "sidhu2003"
+                git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/sidhu2003/conduit-manifests
+                cd conduit-manifests
+                sed -i 's|programmer175/conduit_angular:.*|programmer175/conduit_angular:'"$BUILD_NUMBER"'|' frontend_deployment.yaml
+                git add frontend_deployment.yaml
+                git commit -m "updating image version to $BUILD_NUMBER"
+                git push origin main
+            '''
+        }
     }
+}
 }
      post {
         always {
