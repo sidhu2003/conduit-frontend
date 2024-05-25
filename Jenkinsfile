@@ -64,6 +64,7 @@ pipeline{
             steps {
                 script {
                     sh '''
+                        rm -rf conduit-manifests
                         git config --global user.email "sidhurv8@gmail.com"
                         git config --global user.name "sidhu2003"
                         git clone git@github.com:sidhu2003/conduit-manifests.git
