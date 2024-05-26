@@ -1,27 +1,46 @@
-# Frontend
+# Conduit Frontend CI/CD Pipeline
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+This repository contains the source code for the frontend of our application. The following is an overview of our CI/CD pipeline which automates the process of building, testing, and deploying the application.
 
-## Development server
+![Pipeline Diagram](conduit_white.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Pipeline Steps
 
-## Code scaffolding
+1. **Commit to Repository:**
+   - Developers push code changes to the Git repository.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. **Jenkins Server:**
+   - The Jenkins server automatically fetches the latest code changes.
 
-## Build
+3. **Initialization & Unit Tests:**
+   - Jenkins runs initialization scripts and unit tests to ensure code quality and functionality.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+4. **OWASP Dependency Check:**
+   - The code undergoes a security scan for known vulnerabilities in project dependencies using OWASP Dependency Check.
 
-## Running unit tests
+5. **Build Docker Image:**
+   - A Docker image of the application is built, ensuring a consistent runtime environment.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+6. **Image Scanning:**
+   - The Docker image is scanned for vulnerabilities to ensure security compliance.
 
-## Running end-to-end tests
+7. **Push to Dockerhub:**
+   - The built Docker image is pushed to Dockerhub, making it available for deployment.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+8. **Update Manifest Repository:**
+   - The Kubernetes manifest repository is updated with the new Docker image information.
 
-## Further help
+9. **ArgoCD Deployment:**
+   - ArgoCD, sitting within the Kubernetes cluster, automatically pulls the changes and deploys the application.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+10. **Post Actions:**
+    - Notifications are sent via Slack to inform the team of deployment status and other relevant events.
+
+## Getting Started
+
+To start working on the frontend repository, clone this repository and follow the steps below:
+
+```bash
+git clone https://github.com/sidhu2003/conduit-frontend.git
+cd conduit-frontend
+# Install dependencies and start developing
